@@ -1,0 +1,247 @@
+#
+# Library dependencies for build 'kernel/sel4 lib/ld/sel4'
+#
+
+export SPEC_FILES := \
+  /home/siyuan/genode-20.05/repos/base/mk/spec/arm_v7a.mk \
+  /home/siyuan/genode-20.05/repos/base/mk/spec/imx6q_sabrelite.mk \
+
+LIB_CACHE_DIR = /home/siyuan/genode-20.05/build/arm_v7a/var/libcache
+BASE_DIR      = /home/siyuan/genode-20.05/repos/base
+VERBOSE      ?= @
+VERBOSE_MK   ?= @
+VERBOSE_DIR  ?= --no-print-directory
+INSTALL_DIR  ?= /home/siyuan/genode-20.05/build/arm_v7a/bin
+DEBUG_DIR    ?= /home/siyuan/genode-20.05/build/arm_v7a/debug
+SHELL        ?= /bin/bash
+MKDIR        ?= mkdir
+
+all:
+	@true # prevent nothing-to-be-done message
+
+kernel-sel4-imx6q_sabrelite.lib: check_ports 
+	@$(MKDIR) -p $(LIB_CACHE_DIR)/kernel-sel4-imx6q_sabrelite
+	$(VERBOSE_MK)$(MAKE) --no-print-directory -C $(LIB_CACHE_DIR)/kernel-sel4-imx6q_sabrelite -f $(BASE_DIR)/mk/lib.mk \
+	     REP_DIR=/home/siyuan/genode-20.05/repos/base-sel4 \
+	     LIB_MK=/home/siyuan/genode-20.05/repos/base-sel4/lib/mk/spec/arm/kernel-sel4-imx6q_sabrelite.mk \
+	     SYMBOLS= \
+	     LIB=kernel-sel4-imx6q_sabrelite \
+	     ARCHIVES="$(sort $(DEP_A_kernel-sel4-imx6q_sabrelite))" \
+	     SHARED_LIBS="$(sort $(DEP_SO_kernel-sel4-imx6q_sabrelite))" \
+	     BUILD_BASE_DIR=/home/siyuan/genode-20.05/build/arm_v7a \
+	     SHELL=/bin/bash \
+	     INSTALL_DIR=$(INSTALL_DIR) \
+	     DEBUG_DIR=$(DEBUG_DIR)
+
+ARCHIVE_NAME(kernel-sel4-imx6q_sabrelite) := kernel-sel4-imx6q_sabrelite.lib.a
+
+DEP_A_sel4-imx6q_sabrelite.prg = ${ARCHIVE_NAME(kernel-sel4-imx6q_sabrelite)} $(DEP_A_kernel-sel4-imx6q_sabrelite)
+DEP_SO_sel4-imx6q_sabrelite.prg = ${SO_NAME(kernel-sel4-imx6q_sabrelite)} $(DEP_SO_kernel-sel4-imx6q_sabrelite)
+
+sel4-imx6q_sabrelite.prg: check_ports kernel-sel4-imx6q_sabrelite.lib
+	@$(MKDIR) -p kernel/sel4
+	$(VERBOSE_MK)$(MAKE) --no-print-directory -C kernel/sel4 -f $(BASE_DIR)/mk/prg.mk \
+	     REP_DIR=/home/siyuan/genode-20.05/repos/base-sel4 \
+	     PRG_REL_DIR=kernel/sel4 \
+	     BUILD_BASE_DIR=/home/siyuan/genode-20.05/build/arm_v7a \
+	     ARCHIVES="$(sort $(DEP_A_sel4-imx6q_sabrelite.prg))" \
+	     SHARED_LIBS="$(sort $(DEP_SO_sel4-imx6q_sabrelite.prg))" \
+	     SHELL=/bin/bash \
+	     INSTALL_DIR="$(INSTALL_DIR)" \
+	     DEBUG_DIR="$(DEBUG_DIR)"
+
+ifeq ($(filter $(DEP_A_sel4-imx6q_sabrelite.prg:.lib.a=) $(DEP_SO_sel4-imx6q_sabrelite.prg:.lib.so=) kernel-sel4-imx6q_sabrelite,$(INVALID_DEPS)),)
+all: sel4-imx6q_sabrelite.prg
+endif
+cxx.lib: check_ports 
+	@$(MKDIR) -p $(LIB_CACHE_DIR)/cxx
+	$(VERBOSE_MK)$(MAKE) --no-print-directory -C $(LIB_CACHE_DIR)/cxx -f $(BASE_DIR)/mk/lib.mk \
+	     REP_DIR=/home/siyuan/genode-20.05/repos/base \
+	     LIB_MK=/home/siyuan/genode-20.05/repos/base/lib/mk/cxx.mk \
+	     SYMBOLS= \
+	     LIB=cxx \
+	     ARCHIVES="$(sort $(DEP_A_cxx))" \
+	     SHARED_LIBS="$(sort $(DEP_SO_cxx))" \
+	     BUILD_BASE_DIR=/home/siyuan/genode-20.05/build/arm_v7a \
+	     SHELL=/bin/bash \
+	     INSTALL_DIR=$(INSTALL_DIR) \
+	     DEBUG_DIR=$(DEBUG_DIR)
+
+ARCHIVE_NAME(cxx) := cxx.lib.a
+
+alarm.lib: check_ports 
+	@$(MKDIR) -p $(LIB_CACHE_DIR)/alarm
+	$(VERBOSE_MK)$(MAKE) --no-print-directory -C $(LIB_CACHE_DIR)/alarm -f $(BASE_DIR)/mk/lib.mk \
+	     REP_DIR=/home/siyuan/genode-20.05/repos/base \
+	     LIB_MK=/home/siyuan/genode-20.05/repos/base/lib/mk/alarm.mk \
+	     SYMBOLS= \
+	     LIB=alarm \
+	     ARCHIVES="$(sort $(DEP_A_alarm))" \
+	     SHARED_LIBS="$(sort $(DEP_SO_alarm))" \
+	     BUILD_BASE_DIR=/home/siyuan/genode-20.05/build/arm_v7a \
+	     SHELL=/bin/bash \
+	     INSTALL_DIR=$(INSTALL_DIR) \
+	     DEBUG_DIR=$(DEBUG_DIR)
+
+ARCHIVE_NAME(alarm) := alarm.lib.a
+
+syscall-sel4.lib: check_ports 
+	@$(MKDIR) -p $(LIB_CACHE_DIR)/syscall-sel4
+	$(VERBOSE_MK)$(MAKE) --no-print-directory -C $(LIB_CACHE_DIR)/syscall-sel4 -f $(BASE_DIR)/mk/lib.mk \
+	     REP_DIR=/home/siyuan/genode-20.05/repos/base-sel4 \
+	     LIB_MK=/home/siyuan/genode-20.05/repos/base-sel4/lib/mk/spec/imx6q_sabrelite/syscall-sel4.mk \
+	     SYMBOLS= \
+	     LIB=syscall-sel4 \
+	     ARCHIVES="$(sort $(DEP_A_syscall-sel4))" \
+	     SHARED_LIBS="$(sort $(DEP_SO_syscall-sel4))" \
+	     BUILD_BASE_DIR=/home/siyuan/genode-20.05/build/arm_v7a \
+	     SHELL=/bin/bash \
+	     INSTALL_DIR=$(INSTALL_DIR) \
+	     DEBUG_DIR=$(DEBUG_DIR)
+
+ARCHIVE_NAME(syscall-sel4) := syscall-sel4.lib.a
+
+DEP_A_startup-sel4 = ${ARCHIVE_NAME(syscall-sel4)} $(DEP_A_syscall-sel4)
+DEP_SO_startup-sel4 = ${SO_NAME(syscall-sel4)} $(DEP_SO_syscall-sel4)
+
+startup-sel4.lib: check_ports syscall-sel4.lib
+	@$(MKDIR) -p $(LIB_CACHE_DIR)/startup-sel4
+	$(VERBOSE_MK)$(MAKE) --no-print-directory -C $(LIB_CACHE_DIR)/startup-sel4 -f $(BASE_DIR)/mk/lib.mk \
+	     REP_DIR=/home/siyuan/genode-20.05/repos/base-sel4 \
+	     LIB_MK=/home/siyuan/genode-20.05/repos/base-sel4/lib/mk/spec/arm/startup-sel4.mk \
+	     SYMBOLS= \
+	     LIB=startup-sel4 \
+	     ARCHIVES="$(sort $(DEP_A_startup-sel4))" \
+	     SHARED_LIBS="$(sort $(DEP_SO_startup-sel4))" \
+	     BUILD_BASE_DIR=/home/siyuan/genode-20.05/build/arm_v7a \
+	     SHELL=/bin/bash \
+	     INSTALL_DIR=$(INSTALL_DIR) \
+	     DEBUG_DIR=$(DEBUG_DIR)
+
+ARCHIVE_NAME(startup-sel4) := startup-sel4.lib.a
+
+DEP_A_base-sel4-common = ${ARCHIVE_NAME(startup-sel4)} $(DEP_A_startup-sel4) ${ARCHIVE_NAME(syscall-sel4)} $(DEP_A_syscall-sel4)
+DEP_SO_base-sel4-common = ${SO_NAME(startup-sel4)} $(DEP_SO_startup-sel4) ${SO_NAME(syscall-sel4)} $(DEP_SO_syscall-sel4)
+
+base-sel4-common.lib: check_ports startup-sel4.lib syscall-sel4.lib
+	@$(MKDIR) -p $(LIB_CACHE_DIR)/base-sel4-common
+	$(VERBOSE_MK)$(MAKE) --no-print-directory -C $(LIB_CACHE_DIR)/base-sel4-common -f $(BASE_DIR)/mk/lib.mk \
+	     REP_DIR=/home/siyuan/genode-20.05/repos/base-sel4 \
+	     LIB_MK=/home/siyuan/genode-20.05/repos/base-sel4/lib/mk/base-sel4-common.mk \
+	     SYMBOLS= \
+	     LIB=base-sel4-common \
+	     ARCHIVES="$(sort $(DEP_A_base-sel4-common))" \
+	     SHARED_LIBS="$(sort $(DEP_SO_base-sel4-common))" \
+	     BUILD_BASE_DIR=/home/siyuan/genode-20.05/build/arm_v7a \
+	     SHELL=/bin/bash \
+	     INSTALL_DIR=$(INSTALL_DIR) \
+	     DEBUG_DIR=$(DEBUG_DIR)
+
+ARCHIVE_NAME(base-sel4-common) := base-sel4-common.lib.a
+
+DEP_A_timeout-arm = ${ARCHIVE_NAME(alarm)} $(DEP_A_alarm)
+DEP_SO_timeout-arm = ${SO_NAME(alarm)} $(DEP_SO_alarm)
+
+timeout-arm.lib: check_ports alarm.lib
+	@$(MKDIR) -p $(LIB_CACHE_DIR)/timeout-arm
+	$(VERBOSE_MK)$(MAKE) --no-print-directory -C $(LIB_CACHE_DIR)/timeout-arm -f $(BASE_DIR)/mk/lib.mk \
+	     REP_DIR=/home/siyuan/genode-20.05/repos/base \
+	     LIB_MK=/home/siyuan/genode-20.05/repos/base/lib/mk/timeout-arm.mk \
+	     SYMBOLS= \
+	     LIB=timeout-arm \
+	     ARCHIVES="$(sort $(DEP_A_timeout-arm))" \
+	     SHARED_LIBS="$(sort $(DEP_SO_timeout-arm))" \
+	     BUILD_BASE_DIR=/home/siyuan/genode-20.05/build/arm_v7a \
+	     SHELL=/bin/bash \
+	     INSTALL_DIR=$(INSTALL_DIR) \
+	     DEBUG_DIR=$(DEBUG_DIR)
+
+ARCHIVE_NAME(timeout-arm) := timeout-arm.lib.a
+
+DEP_A_base-sel4 = ${ARCHIVE_NAME(timeout-arm)} $(DEP_A_timeout-arm) ${ARCHIVE_NAME(syscall-sel4)} $(DEP_A_syscall-sel4) ${ARCHIVE_NAME(base-sel4-common)} $(DEP_A_base-sel4-common) ${ARCHIVE_NAME(cxx)} $(DEP_A_cxx)
+DEP_SO_base-sel4 = ${SO_NAME(timeout-arm)} $(DEP_SO_timeout-arm) ${SO_NAME(syscall-sel4)} $(DEP_SO_syscall-sel4) ${SO_NAME(base-sel4-common)} $(DEP_SO_base-sel4-common) ${SO_NAME(cxx)} $(DEP_SO_cxx)
+
+base-sel4.lib: check_ports timeout-arm.lib syscall-sel4.lib base-sel4-common.lib cxx.lib
+	@$(MKDIR) -p $(LIB_CACHE_DIR)/base-sel4
+	$(VERBOSE_MK)$(MAKE) --no-print-directory -C $(LIB_CACHE_DIR)/base-sel4 -f $(BASE_DIR)/mk/lib.mk \
+	     REP_DIR=/home/siyuan/genode-20.05/repos/base-sel4 \
+	     LIB_MK=/home/siyuan/genode-20.05/repos/base-sel4/lib/mk/spec/arm/base-sel4.mk \
+	     SYMBOLS= \
+	     LIB=base-sel4 \
+	     ARCHIVES="$(sort $(DEP_A_base-sel4))" \
+	     SHARED_LIBS="$(sort $(DEP_SO_base-sel4))" \
+	     BUILD_BASE_DIR=/home/siyuan/genode-20.05/build/arm_v7a \
+	     SHELL=/bin/bash \
+	     INSTALL_DIR=$(INSTALL_DIR) \
+	     DEBUG_DIR=$(DEBUG_DIR)
+
+ARCHIVE_NAME(base-sel4) := base-sel4.lib.a
+
+ldso_so_support.lib: check_ports 
+	@$(MKDIR) -p $(LIB_CACHE_DIR)/ldso_so_support
+	$(VERBOSE_MK)$(MAKE) --no-print-directory -C $(LIB_CACHE_DIR)/ldso_so_support -f $(BASE_DIR)/mk/lib.mk \
+	     REP_DIR=/home/siyuan/genode-20.05/repos/base \
+	     LIB_MK=/home/siyuan/genode-20.05/repos/base/lib/mk/ldso_so_support.mk \
+	     SYMBOLS= \
+	     LIB=ldso_so_support \
+	     ARCHIVES="$(sort $(DEP_A_ldso_so_support))" \
+	     SHARED_LIBS="$(sort $(DEP_SO_ldso_so_support))" \
+	     BUILD_BASE_DIR=/home/siyuan/genode-20.05/build/arm_v7a \
+	     SHELL=/bin/bash \
+	     INSTALL_DIR=$(INSTALL_DIR) \
+	     DEBUG_DIR=$(DEBUG_DIR)
+
+ARCHIVE_NAME(ldso_so_support) := ldso_so_support.lib.a
+
+PRIVATE_DEP_A_ld-sel4 = ${ARCHIVE_NAME(cxx)} $(DEP_A_cxx) ${ARCHIVE_NAME(alarm)} $(DEP_A_alarm) ${ARCHIVE_NAME(base-sel4-common)} $(DEP_A_base-sel4-common) ${ARCHIVE_NAME(base-sel4)} $(DEP_A_base-sel4) ${ARCHIVE_NAME(cxx)} $(DEP_A_cxx) ${ARCHIVE_NAME(alarm)} $(DEP_A_alarm) ${ARCHIVE_NAME(ldso_so_support)} $(DEP_A_ldso_so_support)
+DEP_SO_ld-sel4 = ${SO_NAME(cxx)} $(DEP_SO_cxx) ${SO_NAME(alarm)} $(DEP_SO_alarm) ${SO_NAME(base-sel4-common)} $(DEP_SO_base-sel4-common) ${SO_NAME(base-sel4)} $(DEP_SO_base-sel4) ${SO_NAME(cxx)} $(DEP_SO_cxx) ${SO_NAME(alarm)} $(DEP_SO_alarm) ${SO_NAME(ldso_so_support)} $(DEP_SO_ldso_so_support)
+
+ld-sel4.lib: check_ports cxx.lib alarm.lib base-sel4-common.lib base-sel4.lib cxx.lib alarm.lib ldso_so_support.lib
+	@$(MKDIR) -p $(LIB_CACHE_DIR)/ld-sel4
+	$(VERBOSE_MK)$(MAKE) --no-print-directory -C $(LIB_CACHE_DIR)/ld-sel4 -f $(BASE_DIR)/mk/lib.mk \
+	     REP_DIR=/home/siyuan/genode-20.05/repos/base-sel4 \
+	     LIB_MK=/home/siyuan/genode-20.05/repos/base-sel4/lib/mk/spec/arm/ld-sel4.mk \
+	     SYMBOLS=/home/siyuan/genode-20.05/repos/base/lib/symbols/ld \
+	     LIB=ld-sel4 \
+	     ARCHIVES="$(sort $(PRIVATE_DEP_A_ld-sel4))" \
+	     SHARED_LIBS="$(sort $(DEP_SO_ld-sel4))" \
+	     BUILD_BASE_DIR=/home/siyuan/genode-20.05/build/arm_v7a \
+	     SHELL=/bin/bash \
+	     INSTALL_DIR=$(INSTALL_DIR) \
+	     DEBUG_DIR=$(DEBUG_DIR)
+
+SO_NAME(ld-sel4) := ld-sel4.lib.so
+
+DEP_A_ld-sel4.prg = ${ARCHIVE_NAME(ld-sel4)} $(DEP_A_ld-sel4)
+DEP_SO_ld-sel4.prg = ${SO_NAME(ld-sel4)} $(DEP_SO_ld-sel4)
+
+ld-sel4.prg: check_ports ld-sel4.lib
+	@$(MKDIR) -p lib/ld/sel4
+	$(VERBOSE_MK)$(MAKE) --no-print-directory -C lib/ld/sel4 -f $(BASE_DIR)/mk/prg.mk \
+	     REP_DIR=/home/siyuan/genode-20.05/repos/base-sel4 \
+	     PRG_REL_DIR=lib/ld/sel4 \
+	     BUILD_BASE_DIR=/home/siyuan/genode-20.05/build/arm_v7a \
+	     ARCHIVES="$(sort $(DEP_A_ld-sel4.prg))" \
+	     SHARED_LIBS="$(sort $(DEP_SO_ld-sel4.prg))" \
+	     SHELL=/bin/bash \
+	     INSTALL_DIR="$(INSTALL_DIR)" \
+	     DEBUG_DIR="$(DEBUG_DIR)"
+
+ifeq ($(filter $(DEP_A_ld-sel4.prg:.lib.a=) $(DEP_SO_ld-sel4.prg:.lib.so=) ld-sel4,$(INVALID_DEPS)),)
+all: ld-sel4.prg
+endif
+
+ifneq ($(MISSING_PORTS),)
+check_ports:
+	@echo ""
+	@echo "Error: Ports not prepared or outdated:"
+	@echo "  $(sort $(MISSING_PORTS))"
+	@echo ""
+	@echo "You can prepare respectively update them as follows:"
+	@echo "  /home/siyuan/genode-20.05/tool/ports/prepare_port $(sort $(MISSING_PORTS))"
+	@echo ""
+	@false
+else
+check_ports:
+endif
+

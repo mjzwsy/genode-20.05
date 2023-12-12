@@ -1,0 +1,29 @@
+PECOFF_FILE_ALIGNMENT = 0x200;
+SECTIONS
+{
+    .efi_text :
+    {
+        *(.text.efi.header)
+    }
+    .interp : { *(.interp) }
+}
+INSERT BEFORE .hash;
+SECTIONS
+{
+    .start :
+    {
+        *(.text.start)
+    }
+}
+INSERT BEFORE .text;
+SECTIONS
+{
+    .abort_stack :
+    {
+        _abortstack_bottom = .;
+        . = . + 4K;
+        . = ALIGN(16K);
+        _abortstack_top = .;
+    }
+}
+INSERT AFTER .bss;
